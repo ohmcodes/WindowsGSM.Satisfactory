@@ -134,6 +134,7 @@ namespace WindowsGSM.Plugins
         }
         public async Task<Process> Install()
         {
+            AppId = $"{AppId} -beta experimental ";
             var steamCMD = new Installer.SteamCMD();
             Process p = await steamCMD.Install(_serverData.ServerID, string.Empty, AppId, true, loginAnonymous);
             Error = steamCMD.Error;
