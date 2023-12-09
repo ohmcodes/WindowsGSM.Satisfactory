@@ -122,7 +122,6 @@ namespace WindowsGSM.Plugins
             }
         }
 
-
         // - Stop server function
         public async Task Stop(Process p)
         {
@@ -133,7 +132,13 @@ namespace WindowsGSM.Plugins
                 p.WaitForExit(20000);
             });
         }
-
+        public async Task<Process> Install()
+        {
+            var steamCMD = new Installer.SteamCMD();
+            Process p = await steamCMD.Install(_serverData.ServerID, string.Empty, AppId, true, loginAnonymous);
+            Error = steamCMD.Error;
+            return p;
+        }
         public async Task<Process> Update(bool validate = false, string custom = null)
         {
             if (custom == null)
@@ -144,5 +149,25 @@ namespace WindowsGSM.Plugins
             return p;
         }
 
+        public bool IsInstallValid()
+        {
+            return File.Exists(ServerPath.GetServersServerFiles(_serverData.ServerID, StartPath));
+        }
+        public bool IsImportValid(string path)
+        {
+            string importPath = Path.Combine(path, StartPath);
+            Error = $"Invalid Path! Fail to find {Path.GetFileName(StartPath)}";
+            return File.Exists(importPath);
+        }
+        public string GetLocalBuild()
+        {
+            var steamCMD = new Installer.SteamCMD();
+            return steamCMD.GetLocalBuild(_serverData.ServerID, AppId);
+        }
+        public async Task<string> GetRemoteBuild()
+        {
+            var steamCMD = new Installer.SteamCMD();
+            return await steamCMD.GetRemoteBuild(AppId);
+        }
     }
 }
