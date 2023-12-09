@@ -23,7 +23,7 @@ namespace WindowsGSM.Plugins
 
         // - Settings properties for SteamCMD installer
         public override bool loginAnonymous => true;
-        public override string AppId => "1690800 -beta public "; // Game server appId Steam
+        public override string AppId => "1690800"; // Game server appId Steam
 
         // - Standard Constructor and properties
         public Satisfactory(ServerConfig serverData) : base(serverData) => base.serverData = _serverData = serverData;
@@ -32,7 +32,7 @@ namespace WindowsGSM.Plugins
 
 
         // - Game server Fixed variables
-        public override string StartPath => @"FactoryServer.exe"; // Game server start path
+        public override string StartPath => "FactoryServer.exe"; // Game server start path
         public string FullName = "Satisfactory Dedicated Server"; // Game server FullName
         public bool AllowsEmbedConsole = true;  // Does this server support output redirect?
         public int PortIncrements = 1; // This tells WindowsGSM how many ports should skip after installation
@@ -136,6 +136,8 @@ namespace WindowsGSM.Plugins
 
         public async Task<Process> Update(bool validate = false, string custom = null)
         {
+            if (custom == null)
+                custom = " -beta public";
             var (p, error) = await Installer.SteamCMD.UpdateEx(serverData.ServerID, AppId, validate, custom: custom, loginAnonymous: loginAnonymous);
             Error = error;
             await Task.Run(() => { p.WaitForExit(); });
