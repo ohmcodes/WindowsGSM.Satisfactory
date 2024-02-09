@@ -26,5 +26,11 @@
 🖥️ https://steamdb.info/app/1690800/info/
 
 
+### WGSM Map field
+```
+fill your WGSM map field with WORLD GUID it will automatically sends
+-worldGuid <GUID> to the start parameters
+```
+
 # License
 This project is licensed under the MIT License - see the <a href="https://github.com/ohmcodes/WindowsGSM.Satisfactory/blob/main/LICENSE">LICENSE.md</a> file for details
