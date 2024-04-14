@@ -32,7 +32,7 @@ namespace WindowsGSM.Plugins
 
 
         // - Game server Fixed variables
-        public override string StartPath => "FactoryServer.exe"; // Game server start path
+        public override string StartPath => "Engine\\Binaries\\Win64\\UnrealServer-Win64-Shipping.exe"; // Game server start path
         public string FullName = "Satisfactory Dedicated Server"; // Game server FullName
         public bool AllowsEmbedConsole = true;  // Does this server support output redirect?
         public int PortIncrements = 1; // This tells WindowsGSM how many ports should skip after installation
@@ -69,13 +69,13 @@ namespace WindowsGSM.Plugins
             }
 
             // Prepare start parameter
-            string param = "";
-            param += $" {_serverData.ServerParam}";
+            string param = "FactoryGame";
             param += string.IsNullOrWhiteSpace(_serverData.ServerPort) ? string.Empty : $" -Port={_serverData.ServerPort}"; 
             param += string.IsNullOrWhiteSpace(_serverData.ServerQueryPort) ? string.Empty : $" -ServerQueryPort={_serverData.ServerQueryPort}";
-            param += string.IsNullOrWhiteSpace(_serverData.ServerQueryPort) ? string.Empty : $" -BeaconPort={_serverData.ServerQueryPort + 1}";
+            param += string.IsNullOrWhiteSpace(_serverData.ServerQueryPort) ? string.Empty : $" -BeaconPort={int.Parse(_serverData.ServerQueryPort) + 1}";
             param += string.IsNullOrWhiteSpace(_serverData.ServerMaxPlayer) ? string.Empty : $" -MaxPlayers={_serverData.ServerMaxPlayer}";
             param += string.IsNullOrWhiteSpace(_serverData.ServerIP) ? string.Empty : $" -Multihome={_serverData.ServerIP}";
+            param += $" {_serverData.ServerParam}";
 
 
             // Prepare Process
@@ -172,3 +172,4 @@ namespace WindowsGSM.Plugins
         }
     }
 }
+
